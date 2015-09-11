@@ -16,16 +16,22 @@ Based in part on the work done by Michael Kuzmin for vagrant-guestip at https://
 
 6 - bundle exec vagrant adbinfo # tests the command
 
+7 - rake build # puts the gemfile in pkg/
+
 
 # Potential Plans/Ideas (in Priority Order)
 
-## VirtualBox Support (Priority 1 - implemented)
+## VirtualBox Support (Priority 1a - implemented)
 
 For the VirtualBox provider, the user is encouraged to use a forwarded_port directive (with auto_correct) in their Vagrantfile to expose the docker port.
 
 The plugin will use the :forwarded_ports capability to find the forwarded port number and provide it with localhost as the IP address.
 
 Why? By default Virtualbox creates a box that has no inbound network access.  The pattern is to always forward ports, something that a daemon takes care.
+
+## TLS Certificate Location Support, part 2 (Priority 1b - not started)
+
+The TLS certificate will always land in a known spot, so we need to add that
 
 ## libvirt Support (Priority 2 - not started)
 
