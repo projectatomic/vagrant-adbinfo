@@ -51,3 +51,6 @@ Why? vagrant-libvirt has two challenges:
 - Support inbound network and no port forward for VirtualBox.
 - Support a port forward on libvirt.
 
+## Other Ideas (not started)
+
+- Support `vagrant adbinfo <target>` (multiple targets?)
