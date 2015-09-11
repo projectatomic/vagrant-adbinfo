@@ -7,9 +7,7 @@ module VagrantPlugins
 
       def execute
         with_target_vms(nil, {:single_target=>true}) do |machine|
-          ports = machine.provider.capability(:forwarded_ports)
-          port = ports.index(2376)
-          #port = ports.select{|key, hash| hash == 2376}[1]
+          port = machine.provider.capability(:forwarded_ports).index(2376)
           message =
                 <<-eos
 Set the following environment variables to enable access to the
