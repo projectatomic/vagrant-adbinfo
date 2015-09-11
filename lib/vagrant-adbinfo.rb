@@ -1,9 +1,9 @@
 module VagrantPlugins
   module DockerInfo
     class Plugin < Vagrant.plugin(2)
-      name 'dockerinfo'
+      name 'adbinfo'
 
-      command('dockerinfo', primary: false) do
+      command('adbinfo', primary: false) do
         require_relative 'command'
         Command
       end
