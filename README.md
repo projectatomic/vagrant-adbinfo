@@ -12,4 +12,6 @@ Dev Notes:
 
 4 - bundle install
 
-5 - bundle exec vagrant
+5 - bundle exec vagrant up # starts the vagrant box
+
+6 - bundle exec vagrant adbinfo # tests the command
