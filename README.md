@@ -31,7 +31,7 @@ The plugin will use the :forwarded_ports capability to find the forwarded port n
 
 Why? By default Virtualbox creates a box that has no inbound network access.  The pattern is to always forward ports, something that a daemon takes care.
 
-## TLS Certificate Location Support, part 2 (Priority 1b - not started)
+## TLS Certificate Location Support, part 2 (Priority 1b - implemented)
 
 The TLS certificate will always land in a known spot, so we need to add that
 
@@ -50,6 +50,8 @@ Why? vagrant-libvirt has two challenges:
 
 - Support inbound network and no port forward for VirtualBox.
 - Support a port forward on libvirt.
+  - note: port collision is not supported in libvirt, yet see:
+    https://github.com/pradels/vagrant-libvirt/issues/321
 
 ## Other Ideas (not started)
 
