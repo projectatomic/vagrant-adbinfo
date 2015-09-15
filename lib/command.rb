@@ -31,7 +31,7 @@ docker daemon running inside of the vagrant virtual machine:
 export DOCKER_HOST=tcp://127.0.0.1:#{port}
 export DOCKER_CERT_PATH=#{secrets_path}/.docker
 export DOCKER_TLS_VERIFY=1
-export DOCKER_MACHINE_NAME=\"#{machine.index_uuidi[0..6]}\"
+export DOCKER_MACHINE_NAME=\"#{machine.index_uuid[0..6]}\"
                 eos
           @env.ui.info(message)
         end
