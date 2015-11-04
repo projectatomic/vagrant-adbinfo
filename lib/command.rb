@@ -1,3 +1,25 @@
+require 'open3'
+
+module OS
+
+  def OS.windows?
+    (/cygwin|mswin|mingw|bccwin|wince|emx/ =~ RUBY_PLATFORM) != nil
+  end
+
+  def OS.mac?
+    (/darwin/ =~ RUBY_PLATFORM) != nil
+  end
+
+  def OS.unix?
+    !OS.Windows?
+  end
+
+  def OS.linux?
+    OS.unix? and not OS.mac?
+  end
+
+end
+
 module VagrantPlugins
   module DockerInfo
     class Command < Vagrant.plugin(2, :command)
@@ -15,18 +37,24 @@ module VagrantPlugins
               # Find the ssh information
               hIP = machine.ssh_info[:host]
               hport = machine.ssh_info[:port]
-              hprivate_key_path = machine.ssh_info[:private_key_path][0]
               husername = machine.ssh_info[:username]
 
-              # scp over the client side certs from guest to host machine
-              `scp -r -P #{hport} -o LogLevel=FATAL -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i #{hprivate_key_path} #{husername}@#{hIP}:/home/vagrant/.docker #{secrets_path}`
+	      if !OS.windows? then
+                hprivate_key_path = machine.ssh_info[:private_key_path][0]
+                # scp over the client side certs from guest to host machine
+                `scp -r -P #{hport} -o LogLevel=FATAL -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i #{hprivate_key_path} #{husername}@#{hIP}:/home/vagrant/.docker #{secrets_path}`
+              else
+	        `pscp -r -P #{hport} -q -batch -pw vagrant #{husername}@#{hIP}:/home/vagrant/.docker #{secrets_path}`
+              end
+
           end
 
           # Print configuration information for accesing the docker daemon
 
           # Finds the host machine port forwarded from guest docker
            port = machine.provider.capability(:forwarded_ports).key(2376)
-           guest_ip = "127.0.0.1"
+	   guest_ip = "127.0.0.1"
+
           message =
                 <<-eos
 Set the following environment variables to enable access to the
