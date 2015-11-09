@@ -47,6 +47,7 @@ module VagrantPlugins
           end
           # extending the path to include the .docker directory
           secrets_path = File.expand_path(".docker", secrets_path)
+          secrets_path = secrets_path.split('/').join('\\') + '\\'
           
           # Finds the host machine port forwarded from guest docker
           port = machine.provider.capability(:forwarded_ports).key(2376)
@@ -63,7 +64,7 @@ export DOCKER_CERT_PATH=#{secrets_path}
 export DOCKER_TLS_VERIFY=1
 export DOCKER_MACHINE_NAME=#{machine.index_uuid[0..6]}
           eos
-          @env.ui.info(message)
+          @env.ui.info(puts(message))
         end
       end
     end
