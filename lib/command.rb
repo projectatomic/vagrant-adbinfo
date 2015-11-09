@@ -21,6 +21,9 @@ end
 module VagrantPlugins
   module DockerInfo
     class Command < Vagrant.plugin(2, :command)
+      # Vagrant box password as defined in the Kickstart for the box <https://github.com/projectatomic/adb-atomic-developer-bundle/blob/master/build_tools/kickstarts/centos-7-kubernetes-vagrant.ks>
+      # On Windows, pscp utility is used to copy the client side certs on the host, this password is used in the pscp command because the ssh keys can not be used. Details: <https://github.com/bexelbie/vagrant-adbinfo/issues/14>
+      @@vagrant_box_password = "vagrant"
       def self.synopsis
         'provides the IP address:port and tls certificate file location for a docker daemon'
       end
@@ -41,21 +44,23 @@ module VagrantPlugins
               hprivate_key_path = machine.ssh_info[:private_key_path][0]
               # scp over the client side certs from guest to host machine
               `scp -r -P #{hport} -o LogLevel=FATAL -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i #{hprivate_key_path} #{husername}@#{hIP}:/home/vagrant/.docker #{secrets_path}`
+              # extending the .docker path to include         
+              secrets_path = File.expand_path(".docker", secrets_path)
             else
-              `pscp -r -P #{hport} -pw "vagrant" -p #{husername}@#{hIP}:/home/vagrant/.docker #{secrets_path}`
+              `pscp -r -P #{hport} -pw #@@vagrant_box_password -p #{husername}@#{hIP}:/home/vagrant/.docker #{secrets_path}`
+              # extending the .docker path to include         
+              secrets_path = File.expand_path(".docker", secrets_path)
+              secrets_path = secrets_path.split('/').join('\\') + '\\'
             end
           end
-          # extending the path to include the .docker directory
-          secrets_path = File.expand_path(".docker", secrets_path)
-          secrets_path = secrets_path.split('/').join('\\') + '\\'
-          
-          # Finds the host machine port forwarded from guest docker
-          port = machine.provider.capability(:forwarded_ports).key(2376)
-	  guest_ip = "127.0.0.1"
 
-          # Print configuration information for accesing the docker daemon
-          message =
-          <<-eos
+          # Finds the host machine port forwarded from guest docker
+           port = machine.provider.capability(:forwarded_ports).key(2376)
+	         guest_ip = "127.0.0.1"
+
+           # Print configuration information for accesing the docker daemon
+           message =
+                <<-eos
 Set the following environment variables to enable access to the
 docker daemon running inside of the vagrant virtual machine:
 
@@ -63,7 +68,7 @@ export DOCKER_HOST=tcp://#{guest_ip}:#{port}
 export DOCKER_CERT_PATH=#{secrets_path}
 export DOCKER_TLS_VERIFY=1
 export DOCKER_MACHINE_NAME=#{machine.index_uuid[0..6]}
-          eos
+                eos
           @env.ui.info(puts(message))
         end
       end
