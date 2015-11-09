@@ -1,8 +1,8 @@
 Gem::Specification.new do |spec|
   spec.name          = 'vagrant-adbinfo'
-  spec.version       = '0.0.3'
+  spec.version       = '0.0.4'
   spec.homepage      = 'https://github.com/bexelbie/vagrant-adbinfo'
-  spec.summary       = 'Vagrant plugin that provides the IP address:port and tls certificate file location for a docker daemon'
+  spec.summary       = 'Vagrant plugin that provides the IP address:port and TLS certificate file location for a docker daemon'
 
   spec.authors       = ['Brian Exelbierd', 'Navid Shaikh']
   spec.email         = ['bex@pobox.com', 'nshaikh@redhat.com']
