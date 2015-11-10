@@ -70,13 +70,16 @@ def print_info(guest_ip, port, secrets_path, machine_uuid)
   if !OS.windows? then
     message =
     <<-eos
-Set the following environment variables to enable access to the
-docker daemon running inside of the vagrant virtual machine:
+# Set the following environment variables to enable access to the
+# docker daemon running inside of the vagrant virtual machine:
 
 export DOCKER_HOST=tcp://#{guest_ip}:#{port}
 export DOCKER_CERT_PATH=#{secrets_path}
 export DOCKER_TLS_VERIFY=1
 export DOCKER_MACHINE_NAME=#{machine_uuid[0..6]}
+
+# run following command to configure your shell:
+# eval "$(vagrant adb-info)"
     eos
     @env.ui.info(message)
   else
@@ -84,8 +87,8 @@ export DOCKER_MACHINE_NAME=#{machine_uuid[0..6]}
     secrets_path = secrets_path.split('/').join('\\') + '\\'
     message =
     <<-eos
-Set the following environment variables to enable access to the
-docker daemon running inside of the vagrant virtual machine:
+# Set the following environment variables to enable access to the
+# docker daemon running inside of the vagrant virtual machine:
 
 setx DOCKER_HOST tcp://#{guest_ip}:#{port}
 setx DOCKER_CERT_PATH #{secrets_path}
