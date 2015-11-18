@@ -9,7 +9,6 @@ Group: Development/Languages
 License: GPLv2 
 URL: https://github.com/bexelbie/vagrant-adbinfo
 Source0: https://rubygems.org/gems/%{vagrant_plugin_name}-%{version}.gem
-Requires(pre): shadow-utils
 Requires(posttrans): vagrant
 Requires(preun): vagrant
 Requires: vagrant
