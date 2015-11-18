@@ -3,7 +3,7 @@
 
 Name: %{vagrant_plugin_name}
 Version: 0.0.5
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: Vagrant plugin that provides the IP address:port and TLS certificate file location for a Docker daemon
 Group: Development/Languages
 License: GPLv2 
