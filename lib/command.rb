@@ -37,7 +37,14 @@ module VagrantPlugins
           hIP = machine.ssh_info[:host]
           hport = machine.ssh_info[:port]
           husername = machine.ssh_info[:username]
-	  guest_ip = "127.0.0.1"
+
+          # Find the guest IP
+          command = "ip route get 8.8.8.8 | awk 'NR==1 {print $NF}'"
+          guest_ip = ""
+          machine.communicate.execute(command) do |type, data|
+            guest_ip << data.chomp if type == :stdout
+          end
+	  
           # Finds the host machine port forwarded from guest docker
           port = machine.provider.capability(:forwarded_ports).key(2376)
           
