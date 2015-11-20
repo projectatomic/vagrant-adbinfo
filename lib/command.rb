@@ -37,9 +37,24 @@ module VagrantPlugins
           hIP = machine.ssh_info[:host]
           hport = machine.ssh_info[:port]
           husername = machine.ssh_info[:username]
-	  guest_ip = "127.0.0.1"
-          # Finds the host machine port forwarded from guest docker
-          port = machine.provider.capability(:forwarded_ports).key(2376)
+
+          # Find the guest IP
+          if machine.provider_name == :virtualbox then
+              # VirtualBox automatically provisions an eth0 interface that is a NAT interface
+              # We need a routeable IP address, which will therefore be found on eth1
+              command = "ip addr show eth1 | awk 'NR==3 {print $2}' | cut -f1 -d\/"
+          else
+              # For all other provisions, find the default route
+              command = "ip route get 8.8.8.8 | awk 'NR==1 {print $NF}'"
+          end
+          guest_ip = ""
+          machine.communicate.execute(command) do |type, data|
+            guest_ip << data.chomp if type == :stdout
+          end
+	  
+          # Hard Code the Docker port because it is fixed on the VM
+          # This also makes it easier for the plugin to be cross-provider
+          port = 2376
           
           # First, get the TLS Certificates, if needed
           if !File.directory?(File.expand_path(".docker", secrets_path)) then
@@ -80,6 +95,7 @@ export DOCKER_MACHINE_NAME=#{machine_uuid[0..6]}
 
 # run following command to configure your shell:
 # eval "$(vagrant adbinfo)"
+
     eos
     @env.ui.info(message)
   else
