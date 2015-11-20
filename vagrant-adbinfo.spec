@@ -2,8 +2,8 @@
 %global vagrant_plugin_name vagrant-adbinfo
 
 Name: %{vagrant_plugin_name}
-Version: 0.0.5
-Release: 2%{?dist}
+Version: 0.0.6
+Release: 1%{?dist}
 Summary: Vagrant plugin that provides the IP address:port and TLS certificate file location for a Docker daemon
 Group: Development/Languages
 License: GPLv2 
@@ -77,10 +77,19 @@ popd
 %doc %{vagrant_plugin_instdir}/README.md
 %{vagrant_plugin_instdir}/Rakefile
 %{vagrant_plugin_instdir}/Vagrantfile
+%{vagrant_plugin_instdir}/CONTRIBUTING.md
+%{vagrant_plugin_instdir}/LICENSE
+%{vagrant_plugin_instdir}/MAINTAINERS
 %{vagrant_plugin_instdir}/vagrant-adbinfo.gemspec
 
 %changelog
-* Thu Nov 18 2015 Navid Shaikh - 0.0.5-2
+* Fri Nov 20 2015 Navid Shaikh - 0.0.6-1
+- Finds IP address of the guest provisioned via private networking
+- Fixes typo in eval command of adbinfo output
+- Adds License, Contributing and Maintainers files
+- Adds Quick Start and Contact us sections
+
+* Thu Nov 19 2015 Navid Shaikh - 0.0.5-2
 - Removes shadow-utils from Requires
 
 * Tue Nov 17 2015 Navid Shaikh - 0.0.5-1
