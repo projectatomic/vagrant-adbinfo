@@ -51,6 +51,12 @@ module VagrantPlugins
           machine.communicate.execute(command) do |type, data|
             guest_ip << data.chomp if type == :stdout
           end
+
+	  # Regenerate the certs and restart docker daemon in case of the new ADB box and for VirtualBox provider
+	  if machine.provider_name == :virtualbox then
+	    command2 = "ls /opt/adb/cert-gen.sh && sudo rm /etc/docker/ca.pem && sudo systemctl restart docker"
+            machine.communicate.execute(command2)
+          end
 	  
           # Hard Code the Docker port because it is fixed on the VM
           # This also makes it easier for the plugin to be cross-provider
