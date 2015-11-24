@@ -54,7 +54,8 @@ module VagrantPlugins
 
 	  # Regenerate the certs and restart docker daemon in case of the new ADB box and for VirtualBox provider
 	  if machine.provider_name == :virtualbox then
-	    command2 = "ls /opt/adb/cert-gen.sh && sudo rm /etc/docker/ca.pem && sudo systemctl restart docker"
+            # `test` checks if the file exists, and then regenerates the certs and restart the docker daemon, else do nothing.
+	    command2 = "test ! -f /opt/adb/cert-gen.sh || (sudo rm /etc/docker/ca.pem && sudo systemctl restart docker)"
             machine.communicate.execute(command2)
           end
 	  
