@@ -1,6 +1,6 @@
 Gem::Specification.new do |spec|
   spec.name          = 'vagrant-adbinfo'
-  spec.version       = '0.0.6'
+  spec.version       = '0.0.7'
   spec.homepage      = 'https://github.com/bexelbie/vagrant-adbinfo'
   spec.summary       = 'Vagrant plugin that provides the IP address:port and tls certificate file location for a docker daemon'
 
