@@ -51,13 +51,6 @@ module VagrantPlugins
           machine.communicate.execute(command) do |type, data|
             guest_ip << data.chomp if type == :stdout
           end
-
-	  # Regenerate the certs and restart docker daemon in case of the new ADB box and for VirtualBox provider
-	  if machine.provider_name == :virtualbox then
-            # `test` checks if the file exists, and then regenerates the certs and restart the docker daemon, else do nothing.
-	    command2 = "test ! -f /opt/adb/cert-gen.sh || (sudo rm /etc/docker/ca.pem && sudo systemctl restart docker)"
-            machine.communicate.execute(command2)
-          end
 	  
           # Hard Code the Docker port because it is fixed on the VM
           # This also makes it easier for the plugin to be cross-provider
@@ -65,6 +58,14 @@ module VagrantPlugins
           
           # First, get the TLS Certificates, if needed
           if !File.directory?(File.expand_path(".docker", secrets_path)) then
+
+	    # Regenerate the certs and restart docker daemon in case of the new ADB box and for VirtualBox provider
+            if machine.provider_name == :virtualbox then
+            # `test` checks if the file exists, and then regenerates the certs and restart the docker daemon, else do nothing.
+              command2 = "test ! -f /opt/adb/cert-gen.sh || (sudo rm /etc/docker/ca.pem && sudo systemctl restart docker)"
+              machine.communicate.execute(command2)
+            end
+
 	    if !OS.windows? then
               hprivate_key_path = machine.ssh_info[:private_key_path][0]
               # scp over the client side certs from guest to host machine
