@@ -2,7 +2,7 @@
 %global vagrant_plugin_name vagrant-adbinfo
 
 Name: %{vagrant_plugin_name}
-Version: 0.0.8
+Version: 0.0.9
 Release: 1%{?dist}
 Summary: Vagrant plugin that provides the IP address:port and TLS certificate file location for a Docker daemon
 Group: Development/Languages
@@ -84,6 +84,11 @@ popd
 %{vagrant_plugin_instdir}/vagrant-adbinfo.spec
 
 %changelog
+* Wed Nov 25 2015 Brian Exelbierd - 0.0.9-1
+- Fixes cert-generation script existence check, a bug was found where the cert
+  was regenerated to often
+- Bumps the plugin version to 0.0.9
+
 * Tue Nov 24 2015 Navid Shaikh - 0.0.8-1
 - Fixes cert-generation script existence check
 - Bumps the plugin version to 0.0.8
