@@ -27,8 +27,8 @@ The [Atomic Developer Bundle](https://github.com/projectatomic/adb-atomic-develo
 
 ## Get Involved/Contact Us
 
-  IRC: #atomic and #nulecule on freenode
-  Mailing List: container-tools@redhat.com
+  * IRC: #atomic and #nulecule on freenode
+  * Mailing List: container-tools@redhat.com
 
 ## How to Develop/Test
 
