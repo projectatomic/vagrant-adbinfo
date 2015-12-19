@@ -21,8 +21,8 @@ end
 module VagrantPlugins
   module DockerInfo
     class Command < Vagrant.plugin(2, :command)
-      # Vagrant box password as defined in the Kickstart for the box <https://github.com/projectatomic/adb-atomic-developer-bundle/blob/master/build_tools/kickstarts/centos-7-kubernetes-vagrant.ks>
-      # On Windows, pscp utility is used to copy the client side certs on the host, this password is used in the pscp command because the ssh keys can not be used. Details: <https://github.com/bexelbie/vagrant-adbinfo/issues/14>
+      # Vagrant box password as defined in the Kickstart for the box <https://github.com/projectatomic/adb-atomic-developer-bundle/blob/master/build_tools/kickstarts/centos-7-adb-vagrant.ks>
+      # On Windows, pscp utility is used to copy the client side certs to the host, password is used in the pscp command because the ssh keys can not be used. Refer issue #14 for details
       @@vagrant_box_password = "vagrant"
 
       def self.synopsis
