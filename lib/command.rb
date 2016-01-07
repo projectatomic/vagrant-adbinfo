@@ -9,7 +9,7 @@ module OS
   end
 
   def OS.unix?
-    !OS.Windows?
+    !OS.windows?
   end
 
   def OS.linux?
