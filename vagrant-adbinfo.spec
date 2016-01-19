@@ -2,7 +2,7 @@
 %global vagrant_plugin_name vagrant-adbinfo
 
 Name: %{vagrant_plugin_name}
-Version: 0.0.9
+Version: 0.1.0
 Release: 1%{?dist}
 Summary: Vagrant plugin that provides the IP address:port and TLS certificate file location for a Docker daemon
 Group: Development/Languages
@@ -82,8 +82,18 @@ popd
 %{vagrant_plugin_instdir}/MAINTAINERS
 %{vagrant_plugin_instdir}/vagrant-adbinfo.gemspec
 %{vagrant_plugin_instdir}/vagrant-adbinfo.spec
+%{vagrant_plugin_instdir}/CHANGELOG.md
 
 %changelog
+* Tue Jan 19 2016 Navid Shaikh - 0.1.0-1
+- Bump version to 0.1.0
+- Fix#66: Added CHANGELOG.md to repository
+- Added gemspec in Gemfile to enable bundler packaging
+- Fix#67: OS is not a module (TypeError) on Windows
+- Update ADB box Atlas namespace to projectatomic/adb     
+- Update README to reflect latest code and project goals
+- Update Vagrantfile for QuickStart guide
+
 * Wed Nov 25 2015 Brian Exelbierd - 0.0.9-1
 - Fixes cert-generation script existence check, a bug was found where the cert
   was regenerated to often
