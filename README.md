@@ -12,18 +12,25 @@ The [Atomic Developer Bundle](https://github.com/projectatomic/adb-atomic-develo
 
         vagrant plugin install vagrant-adbinfo
 
-3. Run the plugin to get environment variables and certificates
+3. Use the [Vagrantfile] (/Vagrantfile) and bring up the box
+
+        curl https://raw.githubusercontent.com/projectatomic/vagrant-adbinfo/master/Vagrantfile > Vagrantfile
+        vagrant up
+
+4. Run the plugin to get environment variables and certificates
 
         $ vagrant adbinfo
-        Set the following environment variables to enable access to the
-        docker daemon running inside of the vagrant virtual machine:
-
-        export DOCKER_HOST=tcp://172.13.14.1:5555
+        # Set the following environment variables to enable access to the
+        # docker daemon running inside of the vagrant virtual machine:
+        export DOCKER_HOST=tcp://172.13.14.1:2376
         export DOCKER_CERT_PATH=/home/bexelbie/Repositories/vagrant-adbinfo/.vagrant/machines/default/virtualbox/.docker
         export DOCKER_TLS_VERIFY=1
         export DOCKER_MACHINE_NAME="90d3e96"
+        # run following command to configure your shell:
+        # eval "$(vagrant adbinfo)"
 
-4. Begin using your host-based tools.
+
+5. Begin using your host-based tools.
 
 ## Get Involved/Contact Us
 
@@ -47,3 +54,7 @@ The [Atomic Developer Bundle](https://github.com/projectatomic/adb-atomic-develo
   2. Increment the Version Number
 
   3. Release the plugin with `rake release`
+
+  4. Tag the release commit with a vX.Y.Z tag
+
+  5. Create a Github release
