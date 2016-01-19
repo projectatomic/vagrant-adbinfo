@@ -47,3 +47,7 @@ The [Atomic Developer Bundle](https://github.com/projectatomic/adb-atomic-develo
   2. Increment the Version Number
 
   3. Release the plugin with `rake release`
+
+  4. Tag the release commit with a vX.Y.Z tag
+
+  5. Create a Github release
