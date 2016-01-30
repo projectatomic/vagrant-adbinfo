@@ -5,6 +5,7 @@ module VagrantPlugins
       # Vagrant box password as defined in the Kickstart for the box <https://github.com/projectatomic/adb-atomic-developer-bundle/blob/master/build_tools/kickstarts/centos-7-adb-vagrant.ks>
       # On Windows, pscp utility is used to copy the client side certs to the host, password is used in the pscp command because the ssh keys can not be used. Refer issue #14 for details
       @@vagrant_box_password = "vagrant"
+      @@tls_cert_dir = "docker"
 
       def self.synopsis
         'provides the IP address:port and tls certificate file location for a docker daemon'
@@ -38,7 +39,7 @@ module VagrantPlugins
           port = 2376
           
           # First, get the TLS Certificates, if needed
-          if !File.directory?(File.expand_path(".docker", secrets_path)) then
+          if !File.directory?(File.expand_path("#@@tls_cert_dir", secrets_path)) then
 
 	    # Regenerate the certs and restart docker daemon in case of the new ADB box and for VirtualBox provider
             if machine.provider_name == :virtualbox then
@@ -50,9 +51,9 @@ module VagrantPlugins
 	    if !OS.windows? then
               hprivate_key_path = machine.ssh_info[:private_key_path][0]
               # scp over the client side certs from guest to host machine
-              `scp -r -P #{hport} -o LogLevel=FATAL -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i #{hprivate_key_path} #{husername}@#{hIP}:/home/vagrant/.docker #{secrets_path}`
+              `scp -r -P #{hport} -o LogLevel=FATAL -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i #{hprivate_key_path} #{husername}@#{hIP}:/home/vagrant/#@@tls_cert_dir #{secrets_path}`
             else
-              `pscp -r -P #{hport} -pw #@@vagrant_box_password -p #{husername}@#{hIP}:/home/vagrant/.docker #{secrets_path}`
+              `pscp -r -P #{hport} -pw #@@vagrant_box_password -p #{husername}@#{hIP}:/home/vagrant/#@@tls_cert_dir #{secrets_path}`
             end
           end
          
@@ -68,8 +69,8 @@ end
 def print_info(guest_ip, port, secrets_path, machine_uuid)
   # Print configuration information for accesing the docker daemon
   
-  # extending the .docker path to include         
-  secrets_path = File.expand_path(".docker", secrets_path)
+  # extending the @@tls_cert_dir path to include
+  secrets_path = File.expand_path("#@@tls_cert_dir", secrets_path)
 
   if !OS.windows? then
     message =
