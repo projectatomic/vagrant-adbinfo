@@ -51,3 +51,13 @@ The [Atomic Developer Bundle](https://github.com/projectatomic/adb-atomic-develo
   4. Tag the release commit with a vX.Y.Z tag
 
   5. Create a Github release
+
+## How to build the Vagrant plugin using Bundler
+
+git clone this repository and run below commands inside the repository
+
+1. bundle install
+2. bundle exec rake build
+
+You can install the plugin using `vagrant install pkg/<gem name>` command.
+
