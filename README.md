@@ -22,7 +22,7 @@ The [Atomic Developer Bundle](https://github.com/projectatomic/adb-atomic-develo
         docker daemon running inside of the vagrant virtual machine:
 
         export DOCKER_HOST=tcp://172.13.14.1:5555
-        export DOCKER_CERT_PATH=/home/bexelbie/Repositories/vagrant-adbinfo/.vagrant/machines/default/virtualbox/.docker
+        export DOCKER_CERT_PATH=/home/bexelbie/Repositories/vagrant-adbinfo/.vagrant/machines/default/virtualbox/docker
         export DOCKER_TLS_VERIFY=1
         export DOCKER_MACHINE_NAME="90d3e96"
 
