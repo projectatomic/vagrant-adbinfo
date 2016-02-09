@@ -1,3 +1,6 @@
+# This plugin is renamed to [vagrant-service-manager] (https://github.com/projectatomic/vagrant-service-manager)
+All further development will be done on vagrant-service-manager plugin.
+
 # vagrant-adbinfo Vagrant Plugin
 
 Provide setup information, including environment variables and certificates, required to access services provided by an [Atomic Developer Bundle (ADB)](https://github.com/projectatomic/adb-atomic-developer-bundle).  This plugin makes it easier to use the ADB with host-based tools such as Eclipse and the docker and kubernetes CLI commands.  Details on this usage pattern can be found in the [ADB Documentation](https://github.com/projectatomic/adb-atomic-developer-bundle/blob/master/docs/using.rst).
