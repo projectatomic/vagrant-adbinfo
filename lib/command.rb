@@ -1,4 +1,6 @@
 require_relative 'os'
+require 'optparse'
+
 module VagrantPlugins
   module DockerInfo
     class Command < Vagrant.plugin(2, :command)
@@ -12,6 +14,24 @@ module VagrantPlugins
 
       def execute
         with_target_vms(nil, {:single_target=>true}) do |machine|
+
+	  options = {}
+          opts = OptionParser.new do |o|
+	    o.banner = "Usage: vagrant adbinfo [options]"
+            o.separator ""
+
+            o.on('box-version', 'box-version', 'Prints the version of Virtual Machine') do |boxversion|
+	      options[:boxversion] = boxversion;
+	    end
+          end
+          
+          # parse the options
+          argv = parse_options(opts)
+	  if argv and argv.include? 'box-version' then
+            print_boxversion(machine)
+            exit
+	  end
+
           # Path to the private_key and where we will store the TLS Certificates
           secrets_path = machine.data_dir
 
@@ -60,6 +80,17 @@ module VagrantPlugins
          print_info(guest_ip, port, secrets_path, machine.index_uuid)
         end
       end
+
+      def print_boxversion(machine)
+        # Print the version of the underlying virtual machine
+	cmd = "test ! -f /etc/os-release || cat /etc/os-release"
+        version = ""
+        machine.communicate.execute(cmd) do |type, data|
+          version << data.chomp if type == :stdout
+        end
+        @env.ui.info(version)
+      end
+
     end
   end
 end
